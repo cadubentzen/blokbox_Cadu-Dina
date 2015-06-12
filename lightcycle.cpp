@@ -6,7 +6,7 @@ LightCycle::LightCycle(QWidget *parent) :
   pixmap = QPixmap(800,SEGMENT_HEIGHT);
   image = pixmap.toImage();
   column.resize(SEGMENT_HEIGHT);
-  startTimer(50);
+  startTimer(10);
   startColumn=0;
   setText("----");
   ncols=1;

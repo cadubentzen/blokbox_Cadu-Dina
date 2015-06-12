@@ -406,11 +406,11 @@ compiler_rcc_make_all: qrc_resources.cpp
 compiler_rcc_clean:
 	-$(DEL_FILE) qrc_resources.cpp
 qrc_resources.cpp: resources.qrc \
+		resources/prev.svg \
 		resources/stop.svg \
 		resources/play.svg \
 		resources/next.svg \
-		resources/pause.svg \
-		resources/prev.svg
+		resources/pause.svg
 	/usr/lib/x86_64-linux-gnu/qt5/bin/rcc -name resources resources.qrc -o qrc_resources.cpp
 
 compiler_moc_header_make_all: moc_spectrograph.cpp moc_controls.cpp moc_fftcalc.cpp moc_mediainfo.cpp moc_abstractcontrol.cpp moc_abstractspectrograph.cpp moc_abstractmediainfo.cpp moc_medialibrary.cpp moc_playlistmodel.cpp moc_lightcycle.cpp moc_mainwindow.cpp
