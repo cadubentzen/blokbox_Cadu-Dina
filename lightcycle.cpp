@@ -1,0 +1,112 @@
+#include "lightcycle.h"
+
+LightCycle::LightCycle(QWidget *parent) :
+  QWidget(parent)
+{
+  pixmap = QPixmap(800,SEGMENT_HEIGHT);
+  image = pixmap.toImage();
+  column.resize(SEGMENT_HEIGHT);
+  startTimer(100);
+  startColumn=0;
+  setText("----");
+  ncols=1;
+}
+
+void LightCycle::setText(QString text){
+  QColor color;
+  QPainter p;
+  int textWidthinPixels;
+  //qDebug() << "texto = " << text ;
+  if(text.size() == 0)
+    text = QString("Desconhecido");
+  text+="  ";
+  QFont font;
+  font.setStyleHint(QFont::Courier);
+  font.setWeight(QFont::Light);
+  font.setKerning(false);
+  font.setPixelSize(SEGMENT_HEIGHT);
+  QFontMetrics fm(font);
+  textWidthinPixels = fm.width(text);
+  pixmap = QPixmap(textWidthinPixels,SEGMENT_HEIGHT);
+  //qDebug() << pixmap.rect();
+  p.begin(&pixmap);
+  font.setStyleStrategy(QFont::NoAntialias);
+  p.setFont(font);
+  pen.setStyle(Qt::NoPen);
+  p.setPen(pen);
+  p.setBrush(Qt::white);
+  p.drawRect(pixmap.rect());
+  p.setBrush(Qt::black);
+  pen.setStyle(Qt::SolidLine);
+  pen.setColor(Qt::black);
+  p.setPen(pen);
+  p.drawText(pixmap.rect(),Qt::AlignVCenter|Qt::AlignLeft,text);
+  p.end();
+  image = pixmap.toImage();
+  matrix.clear();
+  for(int i=0; i<image.width(); i++){
+    for(int j=0; j<SEGMENT_HEIGHT; j++){
+      color = image.pixel(i,j);
+      //qDebug() << color.value();
+      // checks if the color is white (background color)
+      if(color.value()!=255)
+        column[j] = true;
+      else
+        column[j] = false;
+    }
+    matrix.push_back(column);
+  }
+  repaint();
+}
+void LightCycle::resizeEvent(QResizeEvent *e){
+  Q_UNUSED(e);
+  lightDiameter = (float)height()/SEGMENT_HEIGHT;
+  if(lightDiameter <= 1)
+    lightDiameter = 2;
+  ncols = width()/lightDiameter;
+  if(ncols > image.width()){
+    for(int i=0; i<SEGMENT_HEIGHT; i++){
+      column[i] = false;
+    }
+    for(int i=0; i<ncols-matrix.size(); i++){
+      matrix.push_back(column);
+    }
+  }
+  else{
+    matrix.resize(image.width());
+  }
+}
+
+void LightCycle::timerEvent(QTimerEvent *e){
+  Q_UNUSED(e);
+  startColumn++;
+  if(startColumn > matrix.size())
+    startColumn=0;
+  repaint();
+}
+
+void LightCycle::paintEvent(QPaintEvent *e){
+  Q_UNUSED(e);
+  int index;
+  QColor color;
+  QPainter p(this);
+  p.setBrush(Qt::white);
+  p.setPen(Qt::NoPen);
+  p.setRenderHint(QPainter::Antialiasing);
+  p.setPen(Qt::white);
+  p.drawRect(rect());
+  for(int i=0; i<ncols; i++){
+    index = (i+startColumn)%matrix.size();
+   // qDebug() << "index=" << index << "/" << matrix.size();
+    for(int j=0; j<SEGMENT_HEIGHT; j++){
+      if(matrix[index][j] == true){
+        p.setBrush(Qt::blue);
+        p.drawEllipse(lightDiameter*i,lightDiameter*j,lightDiameter,lightDiameter);
+      }
+      else{
+        p.setBrush(Qt::lightGray);
+        p.drawEllipse(lightDiameter*i,lightDiameter*j,lightDiameter,lightDiameter);
+      }
+    }
+  }
+}

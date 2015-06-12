@@ -1,0 +1,144 @@
+.TH "MediaLibrary" 3 "Sat May 16 2015" "Blokbox" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+MediaLibrary \- 
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <medialibrary\&.h>\fP
+.PP
+Inherits QWidget\&.
+.SS "Signals"
+
+.in +1c
+.ti -1c
+.RI "void \fBaddMediaToPlayList\fP (QString)"
+.br
+.in -1c
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBMediaLibrary\fP (QWidget *parent=0)"
+.br
+.ti -1c
+.RI "\fB~MediaLibrary\fP ()"
+.br
+.ti -1c
+.RI "void \fBaddToSearchPath\fP (QString path)"
+.br
+.ti -1c
+.RI "QSet< QString > \fBgetSearchPath\fP (void)"
+.br
+.RI "\fIgetSearchPath returns a QSet containing QStrings with song paths \fP"
+.in -1c
+.SS "Protected Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBresizeEvent\fP (QResizeEvent *e)"
+.br
+.ti -1c
+.RI "void \fBsetTableTag\fP (QString property, QString value)"
+.br
+.in -1c
+.SS "Private Slots"
+
+.in +1c
+.ti -1c
+.RI "void \fBonSelectItem\fP (QModelIndex index)"
+.br
+.ti -1c
+.RI "void \fBonDoubleClickItem\fP (QModelIndex index)"
+.br
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "QStandardItem * \fBsearchArtist\fP (QString artist)"
+.br
+.ti -1c
+.RI "QStandardItem * \fBsearchAlbum\fP (QStandardItem *artistItem, QString album)"
+.br
+.ti -1c
+.RI "QStandardItem * \fBsearchSong\fP (QStandardItem *albumItem, QString song)"
+.br
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "Ui::MediaLibrary * \fBui\fP"
+.br
+.ti -1c
+.RI "QMediaPlayer * \fBauxplayer\fP"
+.br
+.ti -1c
+.RI "QSet< QString > \fBsearchPath\fP"
+.br
+.RI "\fIsearchPath stores the search path for seeking songs \fP"
+.ti -1c
+.RI "QStandardItemModel * \fBtreeModel\fP"
+.br
+.ti -1c
+.RI "QStandardItemModel * \fBtableModel\fP"
+.br
+.in -1c
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "MediaLibrary::MediaLibrary (QWidget * parent = \fC0\fP)\fC [explicit]\fP"
+
+.SS "MediaLibrary::~MediaLibrary ()"
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void MediaLibrary::addMediaToPlayList (QString)\fC [signal]\fP"
+
+.SS "void MediaLibrary::addToSearchPath (QString path)"
+
+.SS "QSet<QString> MediaLibrary::getSearchPath (void)"
+
+.PP
+getSearchPath returns a QSet containing QStrings with song paths 
+.PP
+\fBReturns:\fP
+.RS 4
+the set of paths 
+.RE
+.PP
+
+.SS "void MediaLibrary::onDoubleClickItem (QModelIndex index)\fC [private]\fP, \fC [slot]\fP"
+
+.SS "void MediaLibrary::onSelectItem (QModelIndex index)\fC [private]\fP, \fC [slot]\fP"
+
+.SS "void MediaLibrary::resizeEvent (QResizeEvent * e)\fC [protected]\fP"
+
+.SS "QStandardItem * MediaLibrary::searchAlbum (QStandardItem * artistItem, QString album)\fC [private]\fP"
+
+.SS "QStandardItem * MediaLibrary::searchArtist (QString artist)\fC [private]\fP"
+
+.SS "QStandardItem * MediaLibrary::searchSong (QStandardItem * albumItem, QString song)\fC [private]\fP"
+
+.SS "void MediaLibrary::setTableTag (QString property, QString value)\fC [protected]\fP"
+
+.SH "Member Data Documentation"
+.PP 
+.SS "QMediaPlayer* MediaLibrary::auxplayer\fC [private]\fP"
+
+.SS "QSet<QString> MediaLibrary::searchPath\fC [private]\fP"
+
+.PP
+searchPath stores the search path for seeking songs 
+.SS "QStandardItemModel * MediaLibrary::tableModel\fC [private]\fP"
+
+.SS "QStandardItemModel* MediaLibrary::treeModel\fC [private]\fP"
+
+.SS "Ui::MediaLibrary* MediaLibrary::ui\fC [private]\fP"
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for Blokbox from the source code\&.

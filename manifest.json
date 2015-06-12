@@ -1,0 +1,15 @@
+{
+    "name": "com.ubuntu.developer.username.blokbox",
+    "description": "description of blokbox",
+    "framework": "ubuntu-sdk-14.04-qml",
+    "architecture": "all",
+    "title": "blokbox",
+    "hooks": {
+        "blokbox": {
+            "apparmor": "blokbox.json",
+            "desktop": "blokbox.desktop"
+        }
+    },
+    "version": "0.1",
+    "maintainer": ""
+}
