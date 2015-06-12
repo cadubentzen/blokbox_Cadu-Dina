@@ -6,7 +6,7 @@ LightCycle::LightCycle(QWidget *parent) :
   pixmap = QPixmap(800,SEGMENT_HEIGHT);
   image = pixmap.toImage();
   column.resize(SEGMENT_HEIGHT);
-  startTimer(100);
+  startTimer(50);
   startColumn=0;
   setText("----");
   ncols=1;
@@ -16,6 +16,7 @@ void LightCycle::setText(QString text){
   QColor color;
   QPainter p;
   int textWidthinPixels;
+  startColumn = 0;
   //qDebug() << "texto = " << text ;
   if(text.size() == 0)
     text = QString("Desconhecido");
@@ -58,49 +59,57 @@ void LightCycle::setText(QString text){
   }
   repaint();
 }
+
+void LightCycle::changedColor(QColor cor){
+  corBolinha = cor;
+}
+
 void LightCycle::resizeEvent(QResizeEvent *e){
   Q_UNUSED(e);
   lightDiameter = (float)height()/SEGMENT_HEIGHT;
   if(lightDiameter <= 1)
     lightDiameter = 2;
   ncols = width()/lightDiameter;
-  if(ncols > image.width()){
+  if(ncols < image.width()){
     for(int i=0; i<SEGMENT_HEIGHT; i++){
       column[i] = false;
     }
+    //for(int i=0; i<ncols-matrix.size(); i++){
+    //  matrix.push_front(column);
+    //}
+  //}
     for(int i=0; i<ncols-matrix.size(); i++){
-      matrix.push_back(column);
+       matrix.push_back(column);
     }
   }
-  else{
-    matrix.resize(image.width());
+   else{
+     matrix.resize(image.width());
   }
 }
 
 void LightCycle::timerEvent(QTimerEvent *e){
   Q_UNUSED(e);
-  startColumn++;
-  if(startColumn > matrix.size())
-    startColumn=0;
+  if(startColumn < ncols)
+    startColumn++;
   repaint();
 }
 
 void LightCycle::paintEvent(QPaintEvent *e){
   Q_UNUSED(e);
   int index;
-  QColor color;
   QPainter p(this);
   p.setBrush(Qt::white);
   p.setPen(Qt::NoPen);
   p.setRenderHint(QPainter::Antialiasing);
   p.setPen(Qt::white);
   p.drawRect(rect());
+  QBrush brush (corBolinha);
   for(int i=0; i<ncols; i++){
     index = (i+startColumn)%matrix.size();
-   // qDebug() << "index=" << index << "/" << matrix.size();
+    // qDebug() << "index=" << index << "/" << matrix.size();
     for(int j=0; j<SEGMENT_HEIGHT; j++){
       if(matrix[index][j] == true){
-        p.setBrush(Qt::blue);
+        p.setBrush(brush);
         p.drawEllipse(lightDiameter*i,lightDiameter*j,lightDiameter,lightDiameter);
       }
       else{

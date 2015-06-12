@@ -22,6 +22,7 @@ private:
   float lightDiameter;
   int ncols;
   int startColumn;
+  QColor corBolinha;
 public:
   explicit LightCycle(QWidget *parent = 0);
 
@@ -31,6 +32,7 @@ public:
 signals:
 
 public slots:
+  void changedColor(QColor cor);
 
 protected:
   void timerEvent(QTimerEvent *e);

@@ -155,6 +155,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->actionLoadFile,SIGNAL(triggered()),this,SLOT(loadMedia()));
 
   connect(ui->visualizer,SIGNAL(trocaCor(QColor)),ui->control,SLOT(onColorChanged(QColor)));
+  connect(ui->visualizer,SIGNAL(trocaCor(QColor)),ui->widgetInfo,SLOT(changedColor(QColor)));
 
   //this->setStyleSheet(QString("QMainWindow {background-color: black}"));
 }

@@ -48,6 +48,12 @@ public slots:
    * ex: "AlbumArtist" <==> "Elton Jonh"
    */
   void setAtribute(QString property, QString value);
+
+  void changedColor(QColor cor);
+
+  void timerEvent(QTimerEvent *e);
+signals:
+  void trocaCor(QColor);
 private:
   /**
    * @brief ui access the form that draws the controls user interface
