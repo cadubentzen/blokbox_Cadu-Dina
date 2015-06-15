@@ -103,6 +103,8 @@ void Controls::onPlayerStateChanged(bool state){
 
 }
 
+// This function changes the color of the buttons, using a attribute named "cor", that changes via a SLOT connected
+// to a signal emited when the spectrum change his color
 void Controls::onColorChanged(QColor cor)
 {
   ui->pushButtonNext->setStyleSheet(QString("QPushButton { background-color: ") + cor.name() + QString("; border: none; }"));

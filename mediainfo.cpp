@@ -6,6 +6,7 @@ MediaInfo::MediaInfo(QWidget *parent) :
   ui(new Ui::MediaInfo){
   ui->setupUi(this);
 
+  // it connects the signal of color changed to the lightCycle, that is inside this widget
   connect(this,SIGNAL(trocaCor(QColor)),ui->widgetLightCycle,SLOT(changedColor(QColor)));
   startTimer(5000);
 }
@@ -68,6 +69,7 @@ void MediaInfo::setAtribute(QString property, QString value){
     ui->labelAudioCodec->setText(value);
 }
 
+// this functon just redirect a signal emited via the visualizer
 void MediaInfo::changedColor(QColor cor){
   emit trocaCor(cor);
 }

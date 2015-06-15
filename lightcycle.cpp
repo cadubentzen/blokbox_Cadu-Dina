@@ -89,7 +89,7 @@ void LightCycle::resizeEvent(QResizeEvent *e){
 
 void LightCycle::timerEvent(QTimerEvent *e){
   Q_UNUSED(e);
-  if(startColumn < ncols)
+  if(startColumn < matrix.size())
     startColumn++;
   repaint();
 }

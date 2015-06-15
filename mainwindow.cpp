@@ -154,6 +154,7 @@ MainWindow::MainWindow(QWidget *parent) :
   // load a single file to library
   connect(ui->actionLoadFile,SIGNAL(triggered()),this,SLOT(loadMedia()));
 
+  // it connects the signals emiteds via the visualizer to the buttons (ui->control) and the lightCycle(ui->widgetInfo)
   connect(ui->visualizer,SIGNAL(trocaCor(QColor)),ui->control,SLOT(onColorChanged(QColor)));
   connect(ui->visualizer,SIGNAL(trocaCor(QColor)),ui->widgetInfo,SLOT(changedColor(QColor)));
 

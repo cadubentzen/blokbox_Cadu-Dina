@@ -87,27 +87,22 @@ void Spectrograph::mouseMoveEvent(QMouseEvent *e)
 void Spectrograph::paintEvent(QPaintEvent *e){
   QPainter p(this);
   QPen pen;
-
+  // this lines makes the color change proportionally to the bass of the music
   corBarra = (corBarra>=359)?0:corBarra+(float)spectrum[0]/(10*widgetHeight);
   rectColor.setHsv((int)corBarra,255,255);
+  // it emits the new color to the other widgets
   emit trocaCor(rectColor);
+  // this lines draw the gradient of the spectrum
   gradient = QLinearGradient(QPoint(rect().width()/2,0),QPoint(rect().width()/2,rect().height()/2));
   gradient.setColorAt(0, QColor(0,0,0));
   gradient.setColorAt(1, rectColor);
   gradient.setSpread(QGradient::RepeatSpread);
   gradientBrush = QBrush(gradient);
-  //QVector<QPointF> vec;
-  //QPainterPath path;
   float p1x, p1yU, p1yD, p2x; //p1yUH, p1yDH;
   e->accept();
   QEasingCurve curve;
-//  gradient.setColorAt(0, Qt::black);
-//  gradient.setColorAt(1, Qt::white);
-//  p.setBrush(gradient);
   p.setBrush(gradientBrush);
   p.drawRect(rect());
- // gradient.setColorAt(0, Qt::white);
- // gradient.setColorAt(1, Qt::black);
   p.setRenderHint(QPainter::Antialiasing);
   pen.setStyle(Qt::SolidLine);
   pen.setColor(Qt::black);
@@ -121,6 +116,7 @@ void Spectrograph::paintEvent(QPaintEvent *e){
   p.setBrush(QBrush(cinzaWater));
   p.drawRect(QRectF(QPointF(0,height()/2),QPointF(width(),height())));
 
+  // now it's time to draw the bars
   QPointF pontos[4];
   for(int i=0; i<NUM_BANDS;i++){
     p1x = (i)*barWidth;
@@ -137,7 +133,7 @@ void Spectrograph::paintEvent(QPaintEvent *e){
     pen.setWidth(1);
     p.setPen(pen);
     p.setBrush(brushBarra);
-    //p.setBrush(brushBarra);
+    // this is the vertical upper bar
     p.drawRect(QRectF(QPointF(p1x,p1yU),QPointF(p2x,widgetHeight/2)));
 
     gradBarra = QLinearGradient (QPointF(p1x,p1yD),QPointF(p2x,widgetHeight/2));
@@ -156,34 +152,9 @@ void Spectrograph::paintEvent(QPaintEvent *e){
     //pontos[2] = QPointF(p1x-barWidth,p1yD);
     //pontos[3] = QPointF(p1x,p1yD);
     pontos[3] = QPointF(p1x-(p1yD-widgetHeight/2)*tan(M_PI/6)+barWidth,p1yD);
+    // this is the below and inclined bar
     p.drawConvexPolygon(pontos,4);
-    //p.drawRect(QRectF(QPointF(p1x,p1yD),QPointF(p2x,widgetHeight/2)));
-    //p1yUH = (float)widgetHeight/2 -decay[i]/2;
-    //p1yDH = (float)widgetHeight/2 +decay[i]/2;
-    //p.setBrush(decayBrush);
-    /*rectColor.setHsv(359-(int)corBarra,255,255);
-    gradBarra = QLinearGradient (QPointF(p1x,p1yUH),QPointF(p2x,p1yU-1));
-    gradBarra.setColorAt(0,rectColor);
-    gradBarra.setColorAt(1,Qt::black);
-    brushBarra = QBrush(gradBarra);
-    p.setBrush(brushBarra);
-    p.drawRect(QRectF(QPointF(p1x,p1yUH),QPointF(p2x,p1yU-1)));
-    gradBarra = QLinearGradient (QPointF(p1x,p1yDH),QPointF(p2x,p1yD+1));
-    gradBarra.setColorAt(0,rectColor);
-    gradBarra.setColorAt(1,Qt::black);
-    brushBarra = QBrush(gradBarra);
-    p.setBrush(brushBarra);
-    p.drawRect(QRectF(QPointF(p2x,p1yD+1),QPointF(p1x,p1yDH)));*/
     }
-  /*p.setBrush(Qt::black);
-  p.drawRect(0,height()-7,width(),7);
-  p.setBrush(Qt::red);
-  p.drawRoundedRect(width()/2-leftLevel,height()-6,leftLevel,6,3,3);
-  p.setBrush(Qt::blue);
-  p.drawRoundedRect(width()/2,height()-6,rightLevel,6,3,3);
-  p.setPen(pen);*/
- // p.setBrush(transparentBrush);
- // p.drawRect(rect());
   oldValue = spectrum[0];
 }
 
